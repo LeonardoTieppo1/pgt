@@ -19,10 +19,16 @@ FROM node:14
 
 WORKDIR /app
 
-# Copia os arquivos do backend
-COPY modernchef/backend /app/backend
+# Cria a estrutura de diretórios para o backend
+RUN mkdir -p /app/backend
 
-WORKDIR /app/backend
+# Copia apenas o código do backend
+COPY modernchef/backend/ /app/backend/
+
+# Imagem de produção
+FROM node:14
+
+WORKDIR /app
 
 # Copia o build do front-end para a pasta de estáticos do backend
 COPY --from=build /app/modernchef/build ./public
