@@ -8,6 +8,10 @@ COPY modernchef/package*.json ./modernchef/
 WORKDIR /app/modernchef
 RUN npm install
 
+# Adiciona as novas dependências
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+RUN npm install react-icons
+
 # Copia todo o projeto do front-end
 COPY modernchef/ ./
 
