@@ -8,7 +8,7 @@ function DeleteItem() {
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            await axios.delete(`http://localhost:5000/receitas/${id}`);
+            await axios.delete(`http://172.210.133.245:5000/receitas/${id}`);
             alert('Receita removida com sucesso');
         } catch (error) {
             console.error(error);

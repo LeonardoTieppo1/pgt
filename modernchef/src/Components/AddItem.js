@@ -94,7 +94,7 @@ const AddItem = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/receitas', formData, {
+            await axios.post('http://172.210.133.245:5000/receitas', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

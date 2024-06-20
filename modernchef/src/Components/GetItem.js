@@ -70,7 +70,7 @@ function GetItem() {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/receitas');
+                const response = await axios.get('http://172.210.133.245:5000/receitas');
                 setItems(response.data);
             } catch (error) {
                 console.error('Error fetching items:', error);

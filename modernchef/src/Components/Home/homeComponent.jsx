@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/receitas');
+        const response = await axios.get('http://172.210.133.245:5000/receitas');
         setRecipeData(response.data);
         setFilteredData(response.data);
       } catch (error) {
