@@ -6,8 +6,10 @@ WORKDIR /app
 # Copia todos os arquivos do projeto modernchef para /app
 COPY modernchef/ ./
 
-# Instala as dependências e executa o build do front-end
+# Navega para dentro da pasta modernchef onde estão os arquivos do front-end
 WORKDIR /app/modernchef
+
+# Instala as dependências e executa o build do front-end
 RUN npm install
 RUN npm run build
 
@@ -20,7 +22,7 @@ WORKDIR /app
 RUN mkdir public
 
 # Copia os arquivos de build do front-end da etapa anterior para a pasta public
-COPY --from=build /app/modernchef/build ./public
+COPY --from=build /app/modernchef/build /app/public
 
 # Define o diretório de trabalho para o backend
 WORKDIR /app
