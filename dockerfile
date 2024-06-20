@@ -16,7 +16,10 @@ FROM node:14
 
 WORKDIR /app
 
-# Copia os arquivos do build do front-end da etapa anterior para a pasta public
+# Cria o diretório 'public' para os arquivos do front-end
+RUN mkdir public
+
+# Copia os arquivos de build do front-end da etapa anterior para a pasta public
 COPY --from=build /app/modernchef/build ./public
 
 # Define o diretório de trabalho para o backend
