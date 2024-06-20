@@ -1,7 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
-# Inicia o backend
-node /app/backend/server.js &
-
-# Mantém o container ativo
-tail -f /dev/null
+# Inicia o servidor do backend
+node backend/server.js
