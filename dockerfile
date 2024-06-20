@@ -3,14 +3,10 @@ FROM node:14 AS build
 
 WORKDIR /app
 
-# Copia apenas os arquivos de dependências do front-end e instala
+# Copia os arquivos de dependências do front-end e instala
 COPY modernchef/package*.json ./modernchef/
 WORKDIR /app/modernchef
 RUN npm install
-
-# Adiciona as novas dependências
-RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
-RUN npm install react-icons
 
 # Copia todo o projeto do front-end
 COPY modernchef/ ./
@@ -23,11 +19,16 @@ FROM node:14
 
 WORKDIR /app
 
+# Cria o diretório para o backend (se necessário)
+RUN mkdir -p /app/backend
+
 # Copia os arquivos de dependências do backend e instala em uma única etapa
 COPY modernchef/backend/package*.json ./backend/
-COPY modernchef/backend/ ./
 WORKDIR /app/backend
 RUN npm install
+
+# Copia o backend
+COPY modernchef/backend/ ./
 
 # Copia o build do front-end para a pasta de estáticos do backend
 COPY --from=build /app/modernchef/build ./public
