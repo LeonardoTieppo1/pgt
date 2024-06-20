@@ -34,8 +34,8 @@ COPY --from=frontend-build /app/modernchef/build ./public
 COPY --from=backend-build /app/backend ./backend
 
 # Expõe a porta 3000 para o front-end e a porta 5000 para o back-end
-EXPOSE 3000
 EXPOSE 5000
+EXPOSE 3000
 
 # Script de entrada para iniciar ambos os serviços
 COPY entrypoint.sh /entrypoint.sh
