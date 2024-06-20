@@ -3,10 +3,10 @@ FROM node:14 AS build
 
 WORKDIR /app
 
-# Copia os arquivos de dependências do front-end e instala
-COPY modernchef/package*.json ./modernchef/
+# Copia os arquivos de dependências do front-end
+COPY modernchef/package.json modernchef/package-lock.json ./modernchef/
 WORKDIR /app/modernchef
-RUN npm install --only=production
+RUN npm ci
 
 # Copia todo o projeto do front-end e executa o build
 COPY modernchef/ ./
@@ -17,10 +17,10 @@ FROM node:14
 
 WORKDIR /app
 
-# Copia os arquivos de dependências do backend e instala
-COPY modernchef/backend/package*.json ./backend/
+# Copia os arquivos de dependências do backend
+COPY modernchef/backend/package.json modernchef/backend/package-lock.json ./backend/
 WORKDIR /app/backend
-RUN npm install --only=production
+RUN npm ci
 
 # Copia o backend
 COPY modernchef/backend/ ./
