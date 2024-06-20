@@ -19,24 +19,16 @@ FROM node:14
 
 WORKDIR /app
 
-# Cria a estrutura de diretórios para o backend
-RUN mkdir -p /app/backend
-
-# Copia apenas o código do backend
-COPY modernchef/backend/ /app/backend/
-
-# Imagem de produção
-FROM node:14
-
-WORKDIR /app
-
 # Copia o build do front-end para a pasta de estáticos do backend
 COPY --from=build /app/modernchef/build ./public
+
+# Copia os arquivos do backend
+COPY modernchef/backend ./backend
 
 # Expõe a porta para o back-end
 EXPOSE 3000
 
-# Script de entrada para iniciar ambos os serviços
+# Script de entrada para iniciar o servidor
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
