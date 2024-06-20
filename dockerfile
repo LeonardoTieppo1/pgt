@@ -1,11 +1,10 @@
 # Etapa de build do front-end
 FROM node:14 AS frontend-build
 
-WORKDIR /app
+WORKDIR /app/modernchef
 
 # Copia os arquivos de dependências do front-end
-COPY modernchef/package*.json ./modernchef/
-WORKDIR /app/modernchef
+COPY modernchef/package*.json ./
 RUN npm install
 
 # Copia todo o projeto do front-end
@@ -17,10 +16,10 @@ RUN npm run build
 # Etapa de build do backend
 FROM node:14 AS backend-build
 
-WORKDIR /app
+WORKDIR /app/backend
 
 # Copia o código do backend
-COPY modernchef/backend /app/backend
+COPY modernchef/backend ./
 
 # Imagem de produção
 FROM node:14
