@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 Dockerfile
 .dockerignore
+modernchef/node_modules
+modernchef/backend/node_modules

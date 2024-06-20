@@ -1,44 +1,34 @@
-# Etapa de build do front-end
-FROM node:14 AS build_frontend
+# Usar uma versão mais recente do Node.js para a etapa de build do front-end
+FROM node:16 AS build
 
 WORKDIR /app
 
-# Copia os arquivos de dependências do front-end e instala
-COPY modernchef/package*.json modernchef/
+# Copiar arquivos de dependências do front-end e instalar dependências
+COPY modernchef/package*.json ./modernchef/
 WORKDIR /app/modernchef
-RUN npm install --frozen-lockfile
+RUN npm install
 
-# Copia todo o projeto do front-end e executa o build
+# Copiar todo o projeto do front-end e executar o build
 COPY modernchef/ ./
 RUN npm run build
 
-
-# Etapa de build do backend
-FROM node:14 AS build_backend
+# Imagem de produção
+FROM node:16
 
 WORKDIR /app
 
-# Copia os arquivos de dependências do backend e instala
-COPY modernchef/backend/package*.json backend/
+# Copiar arquivos de dependências do backend e instalar dependências
+COPY modernchef/backend/package*.json ./backend/
 WORKDIR /app/backend
-RUN npm install --frozen-lockfile
+RUN npm install
 
-# Copia o backend
+# Copiar o backend
 COPY modernchef/backend/ ./
 
+# Copiar o build do front-end para a pasta de estáticos do backend
+COPY --from=build /app/modernchef/build ./public
 
-# Imagem de produção
-FROM node:14
-
-WORKDIR /app
-
-# Copia o build do front-end para a pasta de estáticos do backend
-COPY --from=build_frontend /app/modernchef/build ./public
-
-# Copia o backend
-COPY --from=build_backend /app/backend ./backend
-
-# Expõe a porta para o back-end
+# Expor a porta para o backend
 EXPOSE 3000
 
 # Script de entrada para iniciar ambos os serviços
