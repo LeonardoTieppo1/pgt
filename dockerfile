@@ -1,41 +1,33 @@
 # Etapa de build do front-end
-FROM node:14 AS frontend-build
+FROM node:14 AS build
 
 WORKDIR /app
 
-# Copia os arquivos de dependências do front-end
-COPY modernchef/package*.json ./modernchef/
-WORKDIR /app/modernchef
-RUN npm install
-
-# Copia todo o projeto do front-end
+# Copia todos os arquivos do projeto modernchef para /app
 COPY modernchef/ ./
 
-# Executa o build do front-end
+# Instala as dependências e executa o build do front-end
+WORKDIR /app/modernchef
+RUN npm install
 RUN npm run build
 
-# Etapa de build do backend
-FROM node:14 AS backend-build
-
-WORKDIR /app
-
-# Copia o código do backend
-COPY modernchef/backend /app/backend
-
-# Imagem de produção
+# Etapa de produção
 FROM node:14
 
 WORKDIR /app
 
-# Copia o build do front-end para a pasta de estáticos do backend
-COPY --from=frontend-build /app/modernchef/build ./public
+# Copia os arquivos do build do front-end da etapa anterior para a pasta public
+COPY --from=build /app/modernchef/build ./public
 
-# Copia o código do backend
-COPY --from=backend-build /app/backend ./backend
+# Define o diretório de trabalho para o backend
+WORKDIR /app
 
-# Expõe a porta 3000 para o front-end e a porta 5000 para o back-end
-EXPOSE 3000
+# Copia todo o código do backend
+COPY modernchef/backend ./backend
+
+# Expor a porta 5000 para o backend e 3000 para o front-end
 EXPOSE 5000
+EXPOSE 3000
 
 # Script de entrada para iniciar ambos os serviços
 COPY entrypoint.sh /entrypoint.sh
