@@ -1,5 +1,5 @@
 # Etapa de build do front-end
-FROM node:14 AS frontend-build
+FROM node:16 AS frontend-build
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ COPY modernchef/ ./
 RUN npm run build
 
 # Etapa de build do backend
-FROM node:14 AS backend-build
+FROM node:16 AS backend-build
 
 WORKDIR /app
 
@@ -27,7 +27,7 @@ WORKDIR /app/backend
 RUN npm install
 
 # Imagem de produção
-FROM node:14
+FROM node:16
 
 WORKDIR /app
 
