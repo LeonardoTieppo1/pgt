@@ -3,7 +3,7 @@ FROM node:14 AS build
 
 WORKDIR /app
 
-# Copia apenas os arquivos de dependências do front-end e instala
+# Copia os arquivos de dependências do front-end e instala
 COPY modernchef/package*.json ./modernchef/
 WORKDIR /app/modernchef
 RUN npm install
@@ -22,8 +22,8 @@ WORKDIR /app
 # Copia o build do front-end para a pasta de estáticos do backend
 COPY --from=build /app/modernchef/build ./public
 
-# Copia os arquivos do backend
-COPY modernchef/backend ./backend
+# Copia todo o código do backend para o diretório /app/backend
+COPY modernchef/ /app
 
 # Expõe a porta para o back-end
 EXPOSE 3000
