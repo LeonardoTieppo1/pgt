@@ -3,7 +3,7 @@ FROM node:14 AS build
 
 WORKDIR /app
 
-# Copia os arquivos de dependências do front-end e instala
+# Copia apenas os arquivos de dependências do front-end e instala
 COPY modernchef/package*.json ./modernchef/
 WORKDIR /app/modernchef
 RUN npm install
@@ -18,9 +18,6 @@ RUN npm run build
 FROM node:14
 
 WORKDIR /app
-
-# Cria o diretório para o backend (se necessário)
-RUN mkdir -p /app/backend
 
 # Copia os arquivos de dependências do backend e instala em uma única etapa
 COPY modernchef/backend/package*.json ./backend/
