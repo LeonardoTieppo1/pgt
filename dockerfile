@@ -22,6 +22,10 @@ WORKDIR /app
 # Copia o código do backend
 COPY modernchef/backend /app/backend
 
+# Instala dependências do backend
+WORKDIR /app/backend
+RUN npm install
+
 # Imagem de produção
 FROM node:14
 
