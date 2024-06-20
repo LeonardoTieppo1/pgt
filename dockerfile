@@ -22,6 +22,10 @@ WORKDIR /app
 # Copia o código do backend
 COPY modernchef/backend /app/backend
 
+# Instala dependências do backend
+WORKDIR /app/backend
+RUN npm install
+
 # Imagem de produção
 FROM node:14
 
@@ -30,16 +34,15 @@ WORKDIR /app
 # Copia o build do front-end para a pasta de estáticos do backend
 COPY --from=frontend-build /app/modernchef/build ./public
 
+# Copia todo o projeto do front-end (para scripts ou outros arquivos que possam ser necessários)
+COPY --from=frontend-build /app/modernchef/ ./modernchef
+
 # Copia o código do backend
 COPY --from=backend-build /app/backend ./backend
 
 # Expõe a porta 3000 para o front-end e a porta 5000 para o back-end
 EXPOSE 3000
 EXPOSE 5000
-
-# Instala dependências do backend
-WORKDIR /app/backend
-RUN npm install
 
 # Copia o entrypoint.sh
 COPY entrypoint.sh /entrypoint.sh
