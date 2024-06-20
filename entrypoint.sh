@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /app/backend
-npm start
+node server.js
